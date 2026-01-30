@@ -30,37 +30,49 @@ function Signup(){
     }
 
     return(
-        <div className="min-h-screen flex items-center justify-center">
-            <form onSubmit={handleLogin} className="w-96 space-y-4">
-                <h1 className="text-2xl font-bold">SignUp</h1>
-                <input 
-                type="text"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
-                className="w-full border p-2"
-                />
-
-                <input
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e)=>setPassword(e.target.value)}
-                className="w-full border p-2"
-                />
-
-                {error && <p className="text-red-500">{error}</p>}
-
-                <button 
-                type="submit"
-                disabled={loading}
-                className="w-full bg-black text-white py-2">
-                    Create Account
-                </button>
-
-                <p className="text-sm">Already have an account? <Link to='/login'>Login</Link></p>
-            </form>
-        </div>
+        <div className="fixed inset-0 flex items-center justify-center bg-linear-to-br from-gray-100 to-gray-200">
+                    <div className="bg-white w-96 p-8 rounded-xl shadow-lg">
+                        <h1 className="text-3xl font-bold text-center mb-1">Syncro</h1>
+                        <p className="text-center text-gray-500 mb-6">Create your Syncro account</p>
+        
+                        <form onSubmit={handleLogin} className="space-y-4">
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+        
+                            <input
+                                type="password"
+                                placeholder="Enter password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-black"
+                            />
+        
+                            {error && (
+                                <p className="text-red-500 text-sm">{error}</p>
+                            )}
+        
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-900 transition"
+                            >
+                            Create account
+                            </button>
+        
+                            <p className="text-sm text-center text-gray-600">
+                                Already have an account?{" "}
+                                <Link to="/login" className="text-black font-medium underline">
+                                Log In
+                                </Link>
+                            </p>
+                        </form>
+                    </div>
+                </div>
     )
 
 
