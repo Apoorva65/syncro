@@ -61,7 +61,7 @@ function Signup(){
                                 disabled={loading}
                                 className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-900 transition"
                             >
-                            Create account
+                            {loading ? "Creating account..." : "Sign Up"}
                             </button>
         
                             <p className="text-sm text-center text-gray-600">
