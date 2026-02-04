@@ -15,6 +15,7 @@ function Dashboard(){
 
     const user = useSelector((state)=>state.auth.user);
     const [projects,setProjects] = useState([]);
+    const [projectName,setProjectName] = useState("");
 
     useEffect(()=>{
 
@@ -31,27 +32,46 @@ function Dashboard(){
 
     },[user])
 
+    const handleProject = async() =>{
+        if(!projectName.trim()) return;
+
+        await createProject(projectName,user.uid);
+        const data = await getUserProjects(user.uid);
+        setProjects(data);
+        setProjectName("");
+    }
+
     return(
         <div className="min-h-screen p-6">
-            <h1 className="text-2xl font-bold mb-4">Welcome to Syncro</h1>
-            <p className="mb-6 text-gray-600">Your projects will live here.</p>
+            <div className="flex items-center justify-between mb-6">
+                <div>
+                <h1 className="text-2xl font-bold">Welcome to Syncro</h1>
+                <p className="text-gray-600">Your projects will live here.</p>
+                </div>
 
-            <button
+                <button
                 onClick={handleLogout}
                 className="bg-black text-white px-4 py-2 rounded"
-            >
+                >
                 Logout
-            </button>
-            <span>{" "}</span>
-            <button
-            onClick={async()=>{
-                await createProject("sample project",user.uid);
-                const data = await getUserProjects(user.uid);
-                setProjects(data);
-            }}
-            className="bg-black text-white px-4 py-2 rounded">
-                Add Sample project
-            </button>
+                </button>
+            </div>
+
+            <div className="mb-6 flex gap-2">
+                <input
+                type="text"
+                placeholder="Title"
+                value={projectName}
+                onChange={(e)=>setProjectName(e.target.value)}
+                className="border p-2 flex-1"
+                />
+                <button
+                onClick={handleProject}
+                className="bg-black text-white px-4 py-2 rounded"
+                >
+                    Add
+                </button>
+            </div>
 
             <ul className="mt-6 space-y-2">
                 {projects.map((p)=>(
