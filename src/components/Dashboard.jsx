@@ -16,6 +16,7 @@ function Dashboard(){
     const user = useSelector((state)=>state.auth.user);
     const [projects,setProjects] = useState([]);
     const [projectName,setProjectName] = useState("");
+    const [loading,setLoading] = useState(true);
 
     useEffect(()=>{
 
@@ -24,8 +25,10 @@ function Dashboard(){
         }
 
         const fetchProjetcs = async() =>{
+            setLoading(true);
             const data = await getUserProjects(user.uid);
             setProjects(data);
+            setLoading(false);
         }
 
         fetchProjetcs();
@@ -73,11 +76,21 @@ function Dashboard(){
                 </button>
             </div>
 
+            {loading && (
+                <p className="text-gray-500">Loading....</p>
+            )}
+
+            {!loading && projects.length===0 && (
+                <p className="text-gray-500">No projects yet. Create your first one!</p>
+            )}
+
+            {!loading && projects.length>0 && (
             <ul className="mt-6 space-y-2">
                 {projects.map((p)=>(
                     <li key={p.id} className="border p-2 rounded">{p.name}</li>
                 ))}
             </ul>
+        )}
         </div>
     )
 
