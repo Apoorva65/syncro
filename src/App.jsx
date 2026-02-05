@@ -9,6 +9,7 @@ import {onAuthStateChanged} from 'firebase/auth'
 import { auth } from './services/firebase'
 import { authSuccess,logout } from './features/auth/authSlice'
 import './App.css'
+import Project from './Pages/Project'
 
 function App() {
   const dispatch = useDispatch();
@@ -35,6 +36,11 @@ function App() {
             <Dashboard />
           </ProtectedRoute>
         }/>
+        <Route path='/projects/:projectId' element = {
+          <ProtectedRoute>
+            <Project />
+          </ProtectedRoute>
+        } />
       <Route path='*' element={<Navigate to='/login'/>}/>
       </Routes>
     </BrowserRouter>

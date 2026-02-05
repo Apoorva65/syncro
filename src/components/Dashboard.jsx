@@ -4,9 +4,11 @@ import { logout } from "../features/auth/authSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { createProject,getUserProjects } from "../services/projectService";
+import {useNavigate} from 'react-router-dom'
 
 function Dashboard(){
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogout = async() =>{
         await signOut(auth);
@@ -87,7 +89,10 @@ function Dashboard(){
             {!loading && projects.length>0 && (
             <ul className="mt-6 space-y-2">
                 {projects.map((p)=>(
-                    <li key={p.id} className="border p-2 rounded">{p.name}</li>
+                    <li key={p.id} 
+                    className="border p-3 rounded cursor-pointer hover:bg-gray-100"
+                    onClick={()=>navigate(`/projects/${p.id}`)}
+                    >{p.name}</li>
                 ))}
             </ul>
         )}
