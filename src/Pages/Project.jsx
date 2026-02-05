@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getTasksbyProject,createTask } from "../services/taskService";
+import { getTasksbyProject,createTask,toggleTasksStatus } from "../services/taskService";
 
 const Project = () => {
   const { projectId } = useParams();
@@ -10,10 +10,8 @@ const Project = () => {
 
   useEffect(()=>{
     const fetchTasks = async() =>{
-        console.log("FETCHING TASKS FOR:", projectId);
         setLoading(true);
         const data = await getTasksbyProject(projectId);
-        console.log("TASKS FETCHED:", data);
         setTasks(data);
         setLoading(false);
     }
@@ -58,8 +56,21 @@ const Project = () => {
         {!loading && tasks.length>0 && (
             <ul className="space-y-3 max-w-xl">
                 {tasks.map((t)=>(
-                    <li key={t.id} className="border p-3 rounded">{t.taskTitle}</li>
-                ))}
+                    <li key={t.id} className="border p-3 rounded flex items-center gap-3">
+                        <input
+                        type="checkbox"
+                        checked={t.status==='done'}
+                        onChange={async ()=>{
+                            await toggleTasksStatus(t.id,t.status);
+                            const data = await getTasksbyProject(projectId);
+                            setTasks(data);
+                        }}
+                        />
+                        <span style={t.status === 'done' ? { textDecoration: "line-through", color: "#9ca3af" }: {}}>
+                            {t.taskTitle}
+                        </span>
+                    </li>
+        ))}
             </ul>
         )}
     </div>
