@@ -1,4 +1,4 @@
-import { addDoc, collection, getDoc, getDocs, query, serverTimestamp, where, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, getDoc, getDocs, query, serverTimestamp, where, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 export const createTask = async(taskTitle,projectId) =>{
@@ -28,4 +28,9 @@ export const toggleTasksStatus = async(tasksId, currentStatus) =>{
     await updateDoc(taskRef,{
         status : currentStatus==='todo'?'done':'todo'
     })
+}
+
+export const deleTask = async(tasksId) =>{
+    const taskRef = doc(db,'Tasks',tasksId);
+    await deleteDoc(taskRef);
 }

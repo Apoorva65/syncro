@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getTasksbyProject,createTask,toggleTasksStatus } from "../services/taskService";
+import { getTasksbyProject,createTask,toggleTasksStatus, deleTask } from "../services/taskService";
 
 const Project = () => {
   const { projectId } = useParams();
@@ -35,7 +35,7 @@ const Project = () => {
         <div className="flex gap-2 max-w-xl">
             <input
             type="text"
-            placeholder="New Task"
+            placeholder=" New Task"
             value={taskTitle}
             onChange={(e)=>setTaskTitle(e.target.value)}
             />
@@ -56,19 +56,31 @@ const Project = () => {
         {!loading && tasks.length>0 && (
             <ul className="space-y-3 max-w-xl">
                 {tasks.map((t)=>(
-                    <li key={t.id} className="border p-3 rounded flex items-center gap-3">
-                        <input
-                        type="checkbox"
-                        checked={t.status==='done'}
-                        onChange={async ()=>{
-                            await toggleTasksStatus(t.id,t.status);
+                    <li key={t.id} className="border rounded-lg px-4 py-3 flex items-center hover:bg-gray-50 transition">
+                        <div className="flex items-center gap-3 flex-1">
+                            <input
+                            type="checkbox"
+                            checked={t.status==='done'}
+                            onChange={async ()=>{
+                                await toggleTasksStatus(t.id,t.status);
+                                const data = await getTasksbyProject(projectId);
+                                setTasks(data);
+                            }}
+                            />
+                            <span style={t.status === 'done' ? { textDecoration: "line-through", color: "#9ca3af" }: {}}>
+                                {t.taskTitle}
+                            </span>
+                        </div>
+
+                        <button
+                        className="text-sm text-red-500 hover:text-red-700"
+                        onClick={async()=>{
+                            await deleTask(t.id);
                             const data = await getTasksbyProject(projectId);
                             setTasks(data);
-                        }}
-                        />
-                        <span style={t.status === 'done' ? { textDecoration: "line-through", color: "#9ca3af" }: {}}>
-                            {t.taskTitle}
-                        </span>
+                        }}>
+                            Delete
+                        </button>
                     </li>
         ))}
             </ul>
