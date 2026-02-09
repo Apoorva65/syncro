@@ -22,7 +22,12 @@ function Signup(){
                 email,
                 password
             );
-            dispatch(authSuccess(useCredential.user));
+            const firebaseUser = useCredential.user;
+                        dispatch(authSuccess({
+                        uid: firebaseUser.uid,
+                        email: firebaseUser.email,
+                        displayName: firebaseUser.displayName,
+                        }));
             navigate('/dashboard');
         } catch (error) {
             dispatch(authFailure(error.message));

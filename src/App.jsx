@@ -17,7 +17,11 @@ function App() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
-        dispatch(authSuccess(firebaseUser));
+        dispatch(authSuccess({
+      uid: firebaseUser.uid,
+      email: firebaseUser.email,
+      displayName: firebaseUser.displayName,
+    }));
       } else {
         dispatch(logout());
       }
