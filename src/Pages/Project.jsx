@@ -37,6 +37,7 @@ const Project = () => {
             type="text"
             placeholder=" New Task"
             value={taskTitle}
+            className="border p-2 flex-1"
             onChange={(e)=>setTaskTitle(e.target.value)}
             />
             <button
