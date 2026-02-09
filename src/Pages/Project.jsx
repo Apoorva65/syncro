@@ -38,7 +38,7 @@ const Project = () => {
   return (
     <div className="min-h-screen p-6 space-y-6">
         <h1 className="text-2xl font-bold mb-4">{project?project.name:"Project"}</h1>
-        <p className="text-gray-500 mb-4">Tasks</p>
+        <p className="text-sm text-gray-500">{tasks.length} {tasks.length===1?"Task":"Tasks"}</p>
         <div className="flex gap-2 max-w-xl">
             <input
             type="text"
@@ -83,6 +83,10 @@ const Project = () => {
                         <button
                         className="text-sm text-red-500 hover:text-red-700"
                         onClick={async()=>{
+                            const confirmDelete = window.confirm("Delete this task?");
+
+                            if(!confirmDelete) return;
+
                             await deleTask(t.id);
                             const data = await getTasksbyProject(projectId);
                             setTasks(data);
