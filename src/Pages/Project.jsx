@@ -1,18 +1,25 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getTasksbyProject,createTask,toggleTasksStatus, deleTask } from "../services/taskService";
+import { getProjectbyId } from "../services/projectService";
 
 const Project = () => {
   const { projectId } = useParams();
   const [tasks,setTasks] = useState([]);
   const [taskTitle,setTaskTitle] = useState('');
   const [loading,setLoading] = useState(true);
+  const [project,setProject] = useState(null);
 
   useEffect(()=>{
     const fetchTasks = async() =>{
         setLoading(true);
+
+        const projectData = await getProjectbyId(projectId);
+        setProject(projectData);
+
         const data = await getTasksbyProject(projectId);
         setTasks(data);
+
         setLoading(false);
     }
 
@@ -30,8 +37,8 @@ const Project = () => {
 
   return (
     <div className="min-h-screen p-6 space-y-6">
-        <h1 className="text-2xl font-bold mb-4">Tasks</h1>
-
+        <h1 className="text-2xl font-bold mb-4">{project?project.name:"Project"}</h1>
+        <p className="text-gray-500 mb-4">Tasks</p>
         <div className="flex gap-2 max-w-xl">
             <input
             type="text"

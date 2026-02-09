@@ -1,4 +1,4 @@
-import { addDoc, collection, getDoc, getDocs, query, serverTimestamp, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, query, serverTimestamp, where } from "firebase/firestore";
 import { db } from "./firebase";
 
 export const createProject = async(projectName,userId) =>{
@@ -19,4 +19,16 @@ export const getUserProjects = async(userId) =>{
         id:doc.id,
         ...doc.data()
     }))
+}
+
+export const getProjectbyId = async(projectId) =>{
+    const projectRef = doc(db,'projects',projectId);
+    const snapshot = await getDoc(projectRef);
+
+    if(!snapshot) return null;
+
+    return {
+        id: snapshot.id,
+        ...snapshot.data()
+    }
 }
