@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, getDoc, getDocs, query, serverTimestamp, where } from "firebase/firestore";
-import { db } from "./firebase_tmp";
+import { db } from "./firebase";
 
 export const createProject = async(projectName,userId) =>{
     await addDoc(collection(db, "projects"),{
